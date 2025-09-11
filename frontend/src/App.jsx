@@ -8,23 +8,16 @@ import { useNavigate } from "react-router-dom";
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentUser = useSelector((state) => state?.userReducer?.user);
   useEffect(() => {
-  const loadUser = async () => {
-    const token = document.cookie.includes("token=");
-    if (!token) {
-      navigate("/login");
-      return;
-    }
+    dispatch(asyncLoadCurrentUser()); 
+  },[dispatch]);
 
-    try {
-      await dispatch(asyncLoadCurrentUser());
-    } catch (error) {
-      navigate("/login");
+  useEffect(()=>{
+    if(currentUser === null){
+      navigate('/login');
     }
-  };
-
-  loadUser();
-}, [dispatch, navigate]);
+  },[currentUser, navigate]);
 
   
   return (

@@ -47,6 +47,7 @@ function initSocketServer(httpServer) {
     })
 
     io.on("connection", (socket) => {
+        console.log(`User connected : ${socket.id}`);
         socket.on("ai-message", async (messagePayload) => {
             /* messagePayload = { chat:chatId,content:message text } */
             const [ message, vectors ] = await Promise.all([
@@ -61,22 +62,14 @@ function initSocketServer(httpServer) {
 
             console.log(vectors)
 
-            await createMemory({
-                vectors :vectors,
-                messageId: message._id,
-                metadata: {
-                    chatId: messagePayload.chatId,
-                    userId: socket.user._id,
-                    text: messagePayload.content
-                }
-            })
+            
 
 
             const [ memory, chatHistory ] = await Promise.all([
 
                 queryMemory({
                     queryVector: vectors,
-                    limit: 3,
+                    limit: 5,
                     metadata: {
                         userId: socket.user._id
                     }
@@ -86,6 +79,16 @@ function initSocketServer(httpServer) {
                     chatId: messagePayload.chatId
                 }).sort({ createdAt: -1 }).limit(20).lean().then(messages => messages.reverse())
             ])
+
+            await createMemory({
+                vectors :vectors,
+                messageId: message._id,
+                metadata: {
+                    chatId: messagePayload.chatId,
+                    userId: socket.user._id,
+                    text: messagePayload.content
+                }
+            })
 
             console.log(chatHistory)
 
@@ -100,12 +103,7 @@ function initSocketServer(httpServer) {
                 {
                     role: "user",
                     parts: [ {
-                        text: `
-
-                        these are some previous messages from the chat, use them to generate a response
-
-                        ${memory.map(item => item.metadata.text).join("\n")}
-                        
+                        text: `these are some previous messages from the chat, use them to generate a response${memory.map(item => item.metadata.text).join("\n")}
                         ` } ]
                 }
             ]

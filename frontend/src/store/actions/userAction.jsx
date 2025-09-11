@@ -52,14 +52,23 @@ export const asyncLogoutUser = () => async (dispatch, getstate) => {
     }
 }
 
-export const asyncLoadCurrentUser = () => async(dispatch,getState)=>{
-    try {
-        const res = await axios.get('/api/auth/profile',{withCredentials: true});
-        await dispatch(loaduser(res.data?.user));
-        await dispatch(asyncLoadUserChats());
+export const asyncLoadCurrentUser = () => async (dispatch, getState) => {
+  try {
+    const res = await axios.get("/api/auth/profile", { withCredentials: true });
 
-    } catch (error) {
-        console.log(error)
+    if (res?.data?.user) {
+      await dispatch(loaduser(res.data.user));
+      await dispatch(asyncLoadUserChats());
+    } else {
+      // no user found, clear store
+      dispatch(logoutuser());
+      dispatch(logoutchats());
     }
-}
+  } catch (error) {
+    console.log("Profile load error:", error);
+    // clear store on error (e.g., 401 unauthorized)
+    dispatch(logoutuser());
+    dispatch(logoutchats());
+  }
+};
     
