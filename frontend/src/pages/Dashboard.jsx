@@ -16,7 +16,7 @@ const Dashboard = () => {
   const formRef = useRef(null);
 
   useEffect(() => {
-    const tempSocket = io("http://localhost:3000", { withCredentials: true });
+    const tempSocket = io("https://chatmate-dy3z.onrender.com", { withCredentials: true });
     setsocket(tempSocket);
     return () => tempSocket.disconnect();
   }, []);
