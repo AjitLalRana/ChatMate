@@ -15,7 +15,7 @@ export default function HomePage() {
         <nav className="flex space-x-6">
           <Link
             to="/login"
-            className="text-gray-300 hover:text-white transition duration-200"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition duration-200"
           >
             Login
           </Link>

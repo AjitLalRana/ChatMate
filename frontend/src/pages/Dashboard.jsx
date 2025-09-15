@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 
 const Dashboard = () => {
   const [socket, setsocket] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // ✅ new state
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); //  new state
   const { reset, register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const formRef = useRef(null);
@@ -110,7 +110,7 @@ const Dashboard = () => {
                 key={index}
                 onClick={() => {
                   handleActiveChat(chat);
-                  setIsSidebarOpen(false); // ✅ auto close on mobile
+                  setIsSidebarOpen(false); //  auto close on mobile
                 }}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition ${
                   activeChat?._id === chat?._id

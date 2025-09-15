@@ -15,7 +15,7 @@ const App = () => {
 
   useEffect(()=>{
     if(currentUser === null){
-      navigate('/login');
+      navigate('/');
     }
   },[currentUser, navigate]);
 
