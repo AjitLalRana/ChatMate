@@ -165,7 +165,7 @@ const Dashboard = () => {
               </h1>
               <div
             onClick={newChatHandler}
-            className="newChat w-[50%] h-10 mt-5 text-black bg-blue-400 rounded flex items-center justify-center cursor-pointer hover:bg-blue-500"
+            className="newChat w-[45%] h-10 mt-5 text-black bg-blue-400 rounded flex items-center justify-center cursor-pointer hover:bg-blue-500"
           >
             + New Chat
           </div>
