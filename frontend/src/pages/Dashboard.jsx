@@ -19,7 +19,9 @@ const Dashboard = () => {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    const tempSocket = io("https://chatmate-dy3z.onrender.com", { withCredentials: true });
+    const tempSocket = io("https://chatmate-dy3z.onrender.com", {
+      withCredentials: true,
+    });
     setsocket(tempSocket);
     return () => tempSocket.disconnect();
   }, []);
@@ -164,11 +166,11 @@ const Dashboard = () => {
                 Select a chat to start messaging{" "}
               </h1>
               <div
-            onClick={newChatHandler}
-            className="newChat w-[45%] h-10 mt-5 text-black bg-blue-400 rounded flex items-center justify-center cursor-pointer hover:bg-blue-500"
-          >
-            + New Chat
-          </div>
+                onClick={newChatHandler}
+                className="newChat w-[45%] h-10 mt-5 text-black bg-blue-400 rounded flex items-center justify-center cursor-pointer hover:bg-blue-500"
+              >
+                + New Chat
+              </div>
             </div>
           ) : (
             currentChatMessages.map((msg, index) =>
