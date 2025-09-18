@@ -11,9 +11,12 @@ import { io } from "socket.io-client";
 const Dashboard = () => {
   const [socket, setsocket] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); //  new state
+  const [activeChat, setActiveChat] = useState(null);
+
   const { reset, register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const formRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const tempSocket = io("https://chatmate-dy3z.onrender.com", { withCredentials: true });
@@ -26,8 +29,6 @@ const Dashboard = () => {
   );
   const currentUser = useSelector((state) => state?.userReducer?.user);
   const chats = useSelector((state) => state.chatReducer.chats);
-
-  const [activeChat, setActiveChat] = useState(null);
 
   useEffect(() => {
     if (activeChat) {
@@ -49,7 +50,17 @@ const Dashboard = () => {
     return () => socket.off("ai-response");
   }, [dispatch, activeChat, currentUser]);
 
+  {
+    /* scrollIntoView() */
+  }
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [currentChatMessages]);
+
   const inputHandler = async (data) => {
+    if (!activeChat) return alert("Please select a chat first!");
     const { prompt } = data;
     if (formRef.current) {
       const textarea = formRef.current.querySelector("textarea");
@@ -88,7 +99,7 @@ const Dashboard = () => {
       >
         <div className="w-full flex flex-col items-center sticky">
           <div className="w-full h-[3rem] px-2 flex items-center justify-between">
-            <i className="ri-ancient-pavilion-line text-xl"></i>
+            <h1 className="font-bold text-2xl px-5">ChatMate</h1>
             {/* Close button (only mobile) */}
             <i
               className="ri-close-line text-2xl cursor-pointer md:hidden"
@@ -136,37 +147,51 @@ const Dashboard = () => {
             onClick={() => setIsSidebarOpen(true)}
           ></i>
 
-          <div className="w-full flex items-center justify-center">
-            <h1 className="font-bold rounded bg-[#181818] py-2 px-10">
-              {activeChat?.title || ""}
+          <div className="w-full flex items-center justify-center py-2">
+            <h1 className="h-10 font-bold text-md rounded bg-[#181818] py-2 px-10">
+              {activeChat?.title || "ChatMate"}
             </h1>
           </div>
         </div>
 
         {/* Chat messages */}
         <div className="main-chat-area overflow-y-auto w-full rounded flex-1 flex flex-col gap-4">
-          {currentChatMessages.map((msg, index) =>
-            msg.role === "user" ? (
-              <div key={index} className="user-prompt flex gap-3">
-                <i className="ri-user-2-fill text-2xl mb-3 p-2"></i>
-                <div className="input-area max-w-[70%] mt-5 pl-5 p-3 font-semibold rounded-3xl rounded-tl-none bg-neutral-300 text-black">
-                  {msg.content}
+          {activeChat === null ? (
+            <div className="flex flex-col items-center justify-center flex-1">
+              <i className="ri-robot-line text-[8rem] text-gray-600"></i>
+              <h1 className="text-lg md:text-3xl font-bold text-gray-600">
+                {" "}
+                Select a chat to start messaging{" "}
+              </h1>
+            </div>
+          ) : (
+            currentChatMessages.map((msg, index) =>
+              msg.role === "user" ? (
+                <div key={index} className="user-prompt flex gap-3">
+                  <i className="ri-user-2-fill text-2xl mb-3 p-2"></i>
+                  <div className="input-area max-w-[70%] text-sm  md:text-[1.2rem] mt-5 pl-5 p-3 font-semibold rounded-3xl rounded-tl-none bg-neutral-300 text-black">
+                    {msg.content}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div key={index} className="ai-response flex justify-end gap-3">
-                <div className="max-w-[70%] mt-5 pl-5 p-3 text-[1.2rem] rounded-3xl rounded-tr-none bg-[#303030] text-gray-200">
-                  <ReactMarkdown>{msg.content}</ReactMarkdown>
+              ) : (
+                <div key={index} className="ai-response flex justify-end gap-3">
+                  <div className="max-w-[70%] mt-5 pl-5 p-3 text-sm  md:text-[1.2rem] rounded-3xl rounded-tr-none bg-[#303030] text-gray-200">
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  </div>
+                  <i className="ri-robot-3-fill mb-3 p-2 text-2xl"></i>
                 </div>
-                <i className="ri-robot-3-fill mb-3 p-2 text-2xl"></i>
-              </div>
+              )
             )
           )}
+
+          <div ref={messagesEndRef}></div>
         </div>
 
         {/* Input box */}
-        <div className="input-box w-[90%] min-h-[50px] bg-[#303030] mb-5 px-5 py-3 rounded-3xl flex items-end justify-between">
-          <i className="ri-add-line text-2xl"></i>
+        <div className="input-box w-full md:w-[90%] min-h-[50px] bg-[#303030] mb-5 px-5 py-3 rounded-3xl flex items-end justify-between">
+          <div className="flex items-center justify-center">
+            <i className="ri-add-line text-2xl"></i>
+          </div>
           <form
             ref={formRef}
             onSubmit={handleSubmit(inputHandler)}
@@ -174,15 +199,29 @@ const Dashboard = () => {
           >
             <textarea
               {...register("prompt", { required: true })}
-              placeholder="Ask me..."
+              placeholder={
+                activeChat ? "Ask me..." : "Select a chat to start messaging"
+              }
               rows={1}
-              className="w-full text-[1em] resize-none outline-none p-2 bg-transparent"
+              disabled={!activeChat}
+              className="w-full text-[1em] resize-none outline-none p-2 bg-transparent disabled:opacity-50 disabled:cursor-not-allowed"
               onInput={(e) => {
                 e.target.style.height = "auto";
                 e.target.style.height = `${e.target.scrollHeight}px`;
               }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault(); // prevent newline
+                  handleSubmit(inputHandler)(); // trigger submit
+                }
+              }}
             />
-            <button type="submit" className="cursor-pointer">
+
+            <button
+              type="submit"
+              disabled={!activeChat} // disable send button
+              className="cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               <i className="ri-send-plane-line text-2xl hover:text-blue-300"></i>
             </button>
           </form>

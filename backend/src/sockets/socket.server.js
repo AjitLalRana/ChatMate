@@ -1,8 +1,4 @@
 
-
-
-
-
 const { Server } = require("socket.io");
 const cookie = require("cookie")
 const jwt = require("jsonwebtoken");
@@ -60,7 +56,7 @@ function initSocketServer(httpServer) {
                 aiService.generateVector(messagePayload.content),
             ])
 
-            console.log(vectors)
+            // console.log(vectors)
 
             
 
@@ -108,8 +104,8 @@ function initSocketServer(httpServer) {
                 }
             ]
 
-            console.log("ltm =   ",...ltm);
-            console.log("stm =   ",...stm);
+            // console.log("ltm =   ",...ltm);
+            // console.log("stm =   ",...stm);
 
 
 

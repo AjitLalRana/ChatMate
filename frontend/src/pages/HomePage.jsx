@@ -39,7 +39,7 @@ export default function HomePage() {
         </p>
 
         <Link
-          to="/chat"
+          to="/login"
           className="px-6 py-3 text-lg rounded-xl bg-blue-600 hover:bg-blue-700 shadow-lg transition duration-200"
         >
           Start Chatting
