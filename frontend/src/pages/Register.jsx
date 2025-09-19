@@ -24,10 +24,10 @@ const Register = () => {
   }
   return (
     <div className='w-full h-screen bg-zinc-900 flex items-center justify-center'>
-      <div className="container w-[400px] bg-amber-200 rounded flex flex-col items-center gap-4 py-10">
-        <h1 className='text-2xl'>Create an Account</h1>
+      <div className="container w-[300px] md:w-[400px] bg-amber-200 rounded-xl flex flex-col items-center gap-4 py-10">
+        <h1 className='text-2xl font-semibold'>Create an Account</h1>
         <h4>Its simple and easy!</h4>
-          <form onSubmit={handleSubmit(registerHandler)} className='w-[90%] bg-amber-300 rounded-2xl p-4'>
+          <form onSubmit={handleSubmit(registerHandler)} className='w-[90%] bg-amber-300 shadow-xl rounded-2xl p-4'>
             <label>First Name :</label>
             <input
             className='w-full h-[2rem] border-[1px] px-2 rounded'
@@ -60,7 +60,7 @@ const Register = () => {
               placeholder='Enter your password' /> 
 
               <div className="button mt-8 w-full flex items-center justify-center">
-                    <button className='w-auto h-auto bg-blue-400 px-3 py-1 rounded-full cursor-pointer ' type='submit'>Submit</button> 
+                    <button className='w-auto h-auto bg-blue-400 px-3 py-1 rounded-full shadow-xl cursor-pointer hover:scale-105 ' type='submit'>Submit</button> 
               </div>
 
           </form>

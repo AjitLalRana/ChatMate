@@ -7,21 +7,21 @@ export default function HomePage() {
       {/* Navbar */}
       <header className="flex justify-between items-center px-8 py-4 shadow-md">
         {/* Logo (clickable) */}
-        <Link to="/" className="text-3xl font-bold tracking-wide">
+        <Link to="/" className="text-xl sm:text-3xl font-bold tracking-wide">
           Chat<span className="text-blue-500">Mate</span>
         </Link>
 
         {/* Links */}
-        <nav className="flex space-x-6">
+        <nav className="flex gap-2">
           <Link
             to="/login"
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition duration-200"
+            className="p-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition duration-200"
           >
             Login
           </Link>
           <Link
             to="/register"
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition duration-200"
+            className="p-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition duration-200"
           >
             Sign Up
           </Link>

@@ -6,7 +6,7 @@ export const asyncAddNewChat = (title) => async(dispatch,getState) => {
     try {
             const res = await axios.post("/api/chat",title,{withCredentials: true});
             const newChat = res.data?.chat;
-            console.log(newChat)
+            // console.log(newChat)
 
             //may causes problem
             dispatch(addchat(newChat));

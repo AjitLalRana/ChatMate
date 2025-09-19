@@ -15,7 +15,7 @@ const messageSlice = createSlice({
             state.messages.push(action.payload);
         },
         clearmessages : (state, action)=>{
-            state.messages = []
+            state.messages = state.messages.filter(message => message.chatId !== action.payload)
         }
     }
 })

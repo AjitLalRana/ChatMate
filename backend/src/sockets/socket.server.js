@@ -86,7 +86,7 @@ function initSocketServer(httpServer) {
                 }
             })
 
-            console.log(chatHistory)
+            // console.log(chatHistory)
 
             const stm = chatHistory.map(item => {
                 return {

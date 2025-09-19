@@ -22,7 +22,7 @@ async function authUser(req, res, next) {
         next()
 
     } catch (err) {
-        res.status(401).json({ message: 'Unauthorized' });
+        res.status(401).json({ message: 'Unauthorized access!' });
     }
 
 }

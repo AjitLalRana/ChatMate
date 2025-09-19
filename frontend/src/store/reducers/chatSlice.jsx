@@ -15,7 +15,7 @@ const chatSlice = createSlice({
             state.chats.unshift(action.payload);
         },
         logoutchats : (state,action)=>{
-            state.chats = []
+            state.chats = state.chats.filter(chat => chat._id !== action.payload);
         }
 
     }

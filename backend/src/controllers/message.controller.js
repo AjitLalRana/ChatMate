@@ -11,7 +11,27 @@ const getMessages = async(req,res)=>{
         messages : userchatMessages
     })
 }
+const deleteMessage = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+
+    await messageModel.deleteMany({ chatId });
+
+    res.status(200).json({
+      success: true,
+      message: "Messages deleted successfully."
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+
 
 module.exports = {
-    getMessages
+    getMessages,
+    deleteMessage
 }

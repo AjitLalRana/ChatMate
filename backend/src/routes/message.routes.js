@@ -5,6 +5,7 @@ const MessageController = require('../controllers/message.controller')
 
 
 router.get("/:chatId",authMiddleware.authUser,MessageController.getMessages);
+router.delete("/:chatId",authMiddleware.authUser,MessageController.deleteMessage);
 
 
 module.exports = router;

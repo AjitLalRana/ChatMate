@@ -1,6 +1,8 @@
 const chatModel = require('../models/chat.model');
+const {deleteMemory} = require('../services/vector.service')
 
 //protected route
+
 async function createChat(req, res) {
 
     const { title } = req.body;
@@ -33,7 +35,27 @@ async function userChat(req,res){
     })
 }
 
+async function deleteChat(req, res){
+    try {
+        // const user = req.user; from middleware
+    const {chatId} = req.params;
+    await chatModel.deleteOne({_id : chatId});
+    deleteMemory({metadata : chatId});
+    res.json({
+        success: true,
+        message: "Chat deleted successfully."
+    })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error : error.message
+        })
+        
+    }
+}
+
 module.exports = {
     createChat,
-    userChat
+    userChat,
+    deleteChat
 };
