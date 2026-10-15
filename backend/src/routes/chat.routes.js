@@ -10,7 +10,8 @@ router.post('/', authMiddleware.authUser, chatController.createChat)
 
 router.get("/user",authMiddleware.authUser, chatController.userChat)
 
-router.delete("/:chatId",authMiddleware.authUser,chatController.deleteChat)
+router.delete("/:chatId", authMiddleware.authUser, chatController.deleteChat)
+router.patch("/:chatId/context", authMiddleware.authUser, chatController.updateChatContext)
 
 
 module.exports = router;

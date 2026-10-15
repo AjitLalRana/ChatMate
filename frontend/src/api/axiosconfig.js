@@ -1,8 +1,9 @@
 import axios from "axios"
 
 const instance = axios.create({
-    baseURL : "https://chatmate-dy3z.onrender.com",
+    baseURL : "http://localhost:3000/",
     withCredentials: true
 })
 
 export default instance;
+//"http://localhost:3000/"

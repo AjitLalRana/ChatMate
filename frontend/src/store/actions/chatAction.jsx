@@ -2,17 +2,14 @@ import { loadchats,addchat,logoutchats } from "../reducers/chatSlice";
 
 import axios from "../../api/axiosconfig"
 
-export const asyncAddNewChat = (title) => async(dispatch,getState) => {
+export const asyncAddNewChat = ({ title, contextMode, customContext }) => async (dispatch, getState) => {
     try {
-            const res = await axios.post("/api/chat",title,{withCredentials: true});
-            const newChat = res.data?.chat;
-            // console.log(newChat)
-
-            //may causes problem
-            dispatch(addchat(newChat));
-            return newChat;
+        const res = await axios.post("/api/chat", { title, contextMode, customContext }, { withCredentials: true });
+        const newChat = res.data?.chat;
+        dispatch(addchat(newChat));
+        return newChat;
     } catch (error) {
-        console.log("adding new chat error ;",error);
+        console.log("adding new chat error:", error);
     }
 }
 

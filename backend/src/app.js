@@ -7,6 +7,7 @@ const path = require('path');
 const authRoutes = require('./routes/auth.routes');
 const chatRoutes = require("./routes/chat.routes");
 const messageRoutes = require('./routes/message.routes');
+const contextRoutes = require('./routes/context.routes');
 
 
 const app = express();
@@ -26,7 +27,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 /* Using Routes */
 app.use('/api/auth', authRoutes);
 app.use('/api/chat', chatRoutes);
-app.use('/api/messages',messageRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/context', contextRoutes);
 
 app.get("*name", (req, res)=>{
   res.sendFile(path.join(__dirname, '../public/index.html'));

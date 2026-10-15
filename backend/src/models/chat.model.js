@@ -11,6 +11,14 @@ const chatSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    contextMode: {
+        type: String,
+        default: 'default'
+    },
+    customContext: {
+        type: String,
+        default: ''
+    },
     lastActivity: {
         type: Date,
         default: Date.now
